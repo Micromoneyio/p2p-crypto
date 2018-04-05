@@ -13,4 +13,8 @@ export class EthGateway implements IEthGateway {
     generateAddress() : Account {
         return this._web3.eth.accounts.create();
     }
+
+    getBalance(address: string): Promise<number> {
+        return this._web3.eth.getBalance(address);
+    }
 }

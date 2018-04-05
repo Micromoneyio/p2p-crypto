@@ -14,8 +14,11 @@ export class AccountService implements IAccountService{
         return this._serviceFactory.get(currencyType).generateAddress();
     }
 
-    getBalance(currencyType: CurrencyEnum, address: string): BigNumber {
-        return undefined;
+    getBalance(currencyType: CurrencyEnum, address: string): Promise<number> {
+        if(!address)
+            throw new Error("Address couldn't be empty");
+
+        return this._serviceFactory.get(currencyType).getBalance(address);
     }
 
 

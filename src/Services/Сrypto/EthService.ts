@@ -13,4 +13,8 @@ export class EthService implements IEthService{
         return this._gateway.generateAddress();
     }
 
+    getBalance(address: string): Promise<number> {
+        return this._gateway.getBalance(address);
+    }
+
 }

@@ -12,9 +12,10 @@ class App {
         this.mountMiddleware();
         this.mountRoutes();
 
-        this.express.use((err, req, res, next) => {
+        this.express.use((err, req, res) => {
             console.error(err.stack);
-            res.status(500).send(JSON.stringify(Error));
+            res.status(500).send(JSON.stringify(err.message));
+            //res.status(500).send({ error: 'Something failed!' });
         });
     }
 
