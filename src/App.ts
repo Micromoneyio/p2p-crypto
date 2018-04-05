@@ -1,8 +1,8 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
-import homeRoute from "./Core/Home/Router";
-import accountRouter from "./Core/Account/Router";
-import currenciesRouter from "./Core/Currencies/Router";
+import homeRoute from "./API/Home/Router";
+import accountRouter from "./API/Account/Router";
+import currenciesRouter from "./API/Currencies/Router";
 
 class App {
     public express;
@@ -14,16 +14,8 @@ class App {
 
         this.express.use((err, req, res, next) => {
             console.error(err.stack);
-
-            // if (err instanceof ValidationException) {
-            //     res.status(409).send(err.message);
-            //     return
-            // }
-            //
-            //
-            // res.status(500).send("Something went wrong");
+            res.status(500).send(JSON.stringify(Error));
         });
-
     }
 
     private mountMiddleware() {
