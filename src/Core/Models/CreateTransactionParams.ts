@@ -6,6 +6,4 @@ export default interface CreateTransactionParams {
 
     value: string;
     fee: string;
-
-    time: number;
 }

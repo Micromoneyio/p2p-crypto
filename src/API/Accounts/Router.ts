@@ -1,6 +1,7 @@
 import * as express from 'express'
 import {CurrencyEnum} from "../../Core/Models/Enums/CurrencyEnum";
 import {accountService} from "../DI/CommonDI";
+import {asyncMiddleware} from "../Utils";
 
 const accountRouter = express.Router();
 
@@ -10,13 +11,7 @@ accountRouter.post('/:currency', (req, res) => {
     res.json(account)
 });
 
-const asyncMiddleware = fn =>
-    (req, res, next) => {
-        Promise.resolve(fn(req, res, next))
-            .catch(next);
-    };
-
-accountRouter.get('/:currency/:address/balance',asyncMiddleware(async (req, res) => {
+accountRouter.get('/:currency/:address/balance', asyncMiddleware(async (req, res) => {
     const currencyType:CurrencyEnum  = CurrencyEnum[<string>req.params.currency];
     let balance = await accountService.getBalance(currencyType, req.params.address);
     res.json({balance : balance});

@@ -21,6 +21,12 @@ export class EthService implements IEthService{
     }
 
     createTransaction(transaction: CreateTransactionParams): Promise<string> {
+        transaction.from = transaction.from.toLowerCase();
+        transaction.to = transaction.to.toLowerCase();
+        if(transaction.fromPrivateKey.includes("0x", 0)){
+            transaction.fromPrivateKey = transaction.fromPrivateKey.slice(2);
+        }
+
         return this._gateway.createTransaction(transaction);
     }
 
