@@ -1,7 +1,7 @@
 import {IAccountService} from "../Core/Services/IAccountService";
 import {GeneratedAccount} from "../Core/Models/GeneratedAccount";
 import {IServiceFactory} from "../Core/Services/IServiceFactory";
-import {CurrencyEnum} from "../Core/Models/CurrencyEnum";
+import {CurrencyEnum} from "../Core/Models/Enums/CurrencyEnum";
 
 export class AccountService implements IAccountService{
     private _serviceFactory:IServiceFactory;

@@ -1,6 +1,6 @@
 import Web3 from "web3";
 const Tx = require('ethereumjs-tx');
-import {Account} from "web3/types";
+import {Account, Transaction, TransactionReceipt} from "web3/types";
 import {IEthGateway} from "../../../Core/Gateways/IEthGateway";
 import CreateTransactionParams from "../../../Core/Models/CreateTransactionParams";
 
@@ -10,7 +10,6 @@ export class EthGateway implements IEthGateway {
     constructor(web3) {
         this._web3 = web3;
     }
-
 
     generateAddress(): Account {
         return this._web3.eth.accounts.create();
@@ -40,5 +39,13 @@ export class EthGateway implements IEthGateway {
         let txHash = '0x' + serializedTx.toString('hex');
         this._web3.eth.sendSignedTransaction(txHash);
         return txHash;
+    }
+
+    getTransactionReceipt(transactionHash) : Promise<TransactionReceipt> {
+        return this._web3.eth.getTransactionReceipt(transactionHash)
+    }
+
+    getTransaction(transactionHash): Promise<Transaction> {
+        return this._web3.eth.getTransaction(transactionHash);
     }
 }

@@ -11,8 +11,15 @@ const createTransactionParams = {
 
 const schema = Joi.object().keys(createTransactionParams);
 
-export default function validateCreateTransactionParams(model: CreateTransactionParams) {
+export function validateCreateTransactionParams(model: CreateTransactionParams) {
     let result = Joi.validate(model, schema);
+    if (!result.error)
+        throw new ValidationError(result.error);
+}
+
+
+export function validateTransactionHash(hash) {
+    let result = Joi.validate(hash, Joi.string().min(15).required());
     if (!result.error)
         throw new ValidationError(result.error);
 }

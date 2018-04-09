@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {CurrencyEnum} from "../../Core/Models/CurrencyEnum";
+import {CurrencyEnum} from "../../Core/Models/Enums/CurrencyEnum";
 
 const currenciesRouter = express.Router();
 

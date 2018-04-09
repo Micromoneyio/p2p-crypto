@@ -1,7 +1,7 @@
 import {IServiceFactory} from "../Core/Services/IServiceFactory";
 import {ICryptoService} from "../Core/Services/ICryptoService";
 import {IEthService} from "../Core/Services/IEthService";
-import {CurrencyEnum} from "../Core/Models/CurrencyEnum";
+import {CurrencyEnum} from "../Core/Models/Enums/CurrencyEnum";
 
 export class ServiceFactory implements IServiceFactory{
     private _ethService:IEthService;
