@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import homeRoute from "./API/Home/Router";
-import accountRouter from "./API/Account/Router";
+import accountRouter from "./API/Accounts/Router";
 import currenciesRouter from "./API/Currencies/Router";
 
 class App {
