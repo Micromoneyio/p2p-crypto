@@ -4,6 +4,7 @@ import homeRoute from "./API/Home/Router";
 import accountRouter from "./API/Accounts/Router";
 import currenciesRouter from "./API/Currencies/Router";
 import transactionRouter from "./API/Transactions/Router";
+import ValidationError from "./Core/Models/Exceptions/ValidationError";
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 
@@ -18,8 +19,12 @@ class App {
 
         this.express.use((err, req, res, next) => {
             console.error(err.stack);
+
+            if(err instanceof ValidationError){
+                return res.status(406).send({error: JSON.stringify(err.message)});
+            }
+
             res.status(500).send({error: JSON.stringify(err.message)});
-            //res.status(500).send({ error: 'Something failed!' });
         });
     }
 
