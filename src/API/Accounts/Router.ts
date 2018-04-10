@@ -5,7 +5,7 @@ import {asyncMiddleware} from "../Utils";
 
 const accountRouter = express.Router();
 
-accountRouter.post('/:currency', (req, res) => {
+accountRouter.post('/:currency/', (req, res) => {
     const currencyType:CurrencyEnum  = CurrencyEnum[<string>req.params.currency];
     let account = accountService.generateAddress(currencyType);
     res.json(account)

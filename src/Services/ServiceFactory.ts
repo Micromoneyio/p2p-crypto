@@ -2,6 +2,7 @@ import {IServiceFactory} from "../Core/Services/IServiceFactory";
 import {ICryptoService} from "../Core/Services/ICryptoService";
 import {IEthService} from "../Core/Services/IEthService";
 import {CurrencyEnum} from "../Core/Models/Enums/CurrencyEnum";
+import ValidationError from "../Core/Models/Exceptions/ValidationError";
 
 export class ServiceFactory implements IServiceFactory{
     private _ethService:IEthService;
@@ -16,7 +17,7 @@ export class ServiceFactory implements IServiceFactory{
             case CurrencyEnum.ETH:
                 return this._ethService;
             default:
-                throw new Error("Currency doesn't support");
+                throw new ValidationError("Currency doesn't support");
         }
     }
 

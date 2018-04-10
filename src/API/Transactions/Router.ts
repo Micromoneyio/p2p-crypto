@@ -6,7 +6,7 @@ import {TransactionStatus} from "../../Core/Models/Enums/TransactionStatus";
 
 const transactionRouter = express.Router();
 
-transactionRouter.post('/:currency', asyncMiddleware(async (req, res) => {
+transactionRouter.post('/:currency/', asyncMiddleware(async (req, res) => {
     const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
     let hash = await transactionService.create(currencyType, req.body);
     res.json({ hash : hash})

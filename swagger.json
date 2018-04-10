@@ -1,0 +1,325 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the payment gateway for cryptocurrencies",
+    "version": "1.0.0",
+    "title": "Crypto payment gateway"
+  },
+  "host": "localhost:9000",
+  "tags": [
+    {
+      "name": "accounts",
+      "description": "Working with accounts"
+    },
+    {
+      "name": "currencies",
+      "description": "Data about currencies",
+      "externalDocs": {
+        "description": "List of currencies",
+        "url": "https://coinmarketcap.com/"
+      }
+    },
+    {
+      "name": "transactions",
+      "description": "Working with transactions"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "definitions": {
+    "CurrenciesList": {
+      "type": "string",
+      "enum": [
+        "ETH"
+      ]
+    },
+    "TransactionStatus": {
+      "type": "string",
+      "enum": [
+        "Approved",
+        "Failed",
+        "Pending"
+      ]
+    },
+    "GeneratedAccount": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "format": "string"
+        },
+        "privateKey": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "GeneratedAccount"
+      }
+    },
+    "BalanceResponse": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "BalanceResponse"
+      }
+    },
+    "CreateTransactionRequest": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "string"
+        },
+        "fromPrivateKey": {
+          "type": "string",
+          "format": "string"
+        },
+        "to": {
+          "type": "string",
+          "format": "string"
+        },
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fee": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "CreateTransactionRequest"
+      }
+    },
+    "CreateTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "xml": {
+        "name": "CreateTransactionResponse"
+      }
+    },
+    "GetTransactionStatusResponse": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "$ref": "#/definitions/TransactionStatus"
+        }
+      },
+      "xml": {
+        "name": "BalanceResponse"
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "xml": {
+        "name": "Error"
+      }
+    }
+  },
+  "paths": {
+    "/accounts/{currency}": {
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Create new account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return generated account",
+            "schema": {
+              "$ref": "#/definitions/GeneratedAccount"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{currency}/{address}/balance": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Fetching balance",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          },
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return balance",
+            "schema": {
+              "$ref": "#/definitions/BalanceResponse"
+            }
+          },
+          "406": {
+            "description": "Input validation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{currency}": {
+      "post": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Create new transcation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Info about transaction",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return hash of the transaction",
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionResponse"
+            }
+          },
+          "406": {
+            "description": "Input validation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{currency}/{transactionHash}": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get transaction status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          },
+          {
+            "in": "path",
+            "name": "transactionHash",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return status of the transaction",
+            "schema": {
+              "$ref": "#/definitions/GetTransactionStatusResponse"
+            }
+          },
+          "406": {
+            "description": "Input validation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/currencies/": {
+      "get": {
+        "tags": [
+          "currencies"
+        ],
+        "summary": "Get transaction list",
+        "responses": {
+          "200": {
+            "description": "List of the transactions",
+            "schema": {
+              "$ref": "#/definitions/CurrenciesList"
+            }
+          }
+        }
+      }
+    }
+  }
+}
