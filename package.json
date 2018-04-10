@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/joi": "^13.0.7",
+    "@types/winston": "^2.3.9",
     "bignumber.js": "^6.0.0",
     "body-parser": "^1.18.2",
     "class-validator": "^0.7.3",
@@ -23,7 +24,9 @@
     "promise-retry": "^1.1.1",
     "serve-favicon": "~2.3.0",
     "swagger-ui-express": "^3.0.6",
-    "web3": "^1.0.0-beta.33"
+    "web3": "^1.0.0-beta.33",
+    "winston": "^2.4.1",
+    "winston-daily-rotate-file": "^3.0.2"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.5",
@@ -43,6 +46,7 @@
     "@types/serve-favicon": "^2.2.28",
     "browser-sync": "^2.18.8",
     "gulp": "^3.9.1",
+    "gulp-copy": "^1.1.0",
     "gulp-less": "^3.3.0",
     "gulp-mocha": "^4.1.0",
     "gulp-nodemon": "^2.2.1",

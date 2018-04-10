@@ -2,7 +2,7 @@ import Web3 from "web3";
 var Tx = require('ethereumjs-tx');
 var promiseRetry = require('promise-retry');
 
-import {Account, JsonRPCRequest, JsonRPCResponse, Transaction, TransactionReceipt} from "web3/types";
+import {Account, Transaction, TransactionReceipt} from "web3/types";
 import {IEthGateway} from "../../../Core/Gateways/IEthGateway";
 import CreateTransactionParams from "../../../Core/Models/CreateTransactionParams";
 
@@ -52,7 +52,6 @@ export class EthGateway implements IEthGateway {
 
             let serializedTx = tx.serialize();
 
-            let sendTransactionMethod = this.createTransaction;
             this._web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
                 if (err)
                     return reject(err);
@@ -68,5 +67,9 @@ export class EthGateway implements IEthGateway {
 
     getTransaction(transactionHash): Promise<Transaction> {
         return this._web3.eth.getTransaction(transactionHash);
+    }
+
+    isEthAddress(address: string): boolean {
+        return this._web3.utils.isAddress(address);
     }
 }

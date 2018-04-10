@@ -5,6 +5,7 @@ import accountRouter from "./API/Accounts/Router";
 import currenciesRouter from "./API/Currencies/Router";
 import transactionRouter from "./API/Transactions/Router";
 import ValidationError from "./Core/Models/Exceptions/ValidationError";
+import logger from "./Services/Logger/Logger";
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 
@@ -18,7 +19,7 @@ class App {
         this.configureSwagger();
 
         this.express.use((err, req, res, next) => {
-            console.error(err.stack);
+            logger.error(err.stack);
 
             if(err instanceof ValidationError){
                 return res.status(406).send({error: JSON.stringify(err.message)});

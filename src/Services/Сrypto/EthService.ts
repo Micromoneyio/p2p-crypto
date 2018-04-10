@@ -4,6 +4,7 @@ import {IEthService} from "../../Core/Services/IEthService";
 import CreateTransactionParams from "../../Core/Models/CreateTransactionParams";
 import {TransactionStatus} from "../../Core/Models/Enums/TransactionStatus";
 import NotFoundError from "../../Core/Models/Exceptions/NotFoundError";
+import ValidationError from "../../Core/Models/Exceptions/ValidationError";
 
 export class EthService implements IEthService{
     private _gateway:IEthGateway;
@@ -17,6 +18,9 @@ export class EthService implements IEthService{
     }
 
     getBalance(address: string): Promise<number> {
+        if(!this._gateway.isEthAddress(address))
+            throw new ValidationError("Address isn't ether's one");
+
         return this._gateway.getBalance(address);
     }
 

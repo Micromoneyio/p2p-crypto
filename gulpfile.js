@@ -1,11 +1,11 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
-var path = require('path');
-var mocha = require('gulp-mocha');
-var browserSync = require('browser-sync');
-var nodemon = require('gulp-nodemon');
-var cp = require('child_process');
-var tsb = require('gulp-tsb');
+let gulp = require('gulp');
+let less = require('gulp-less');
+let path = require('path');
+let mocha = require('gulp-mocha');
+let browserSync = require('browser-sync');
+let nodemon = require('gulp-nodemon');
+let cp = require('child_process');
+let tsb = require('gulp-tsb');
 
 
 // compile less files from the ./styles folder
@@ -60,8 +60,8 @@ gulp.task('nodemon', function (cb) {
 var tsConfigSrc = tsb.create('src/tsconfig.json');
 gulp.task('build', function () {
     return gulp.src('./src/**/*.ts')
-        .pipe(tsConfigSrc()) 
-        .pipe(gulp.dest('./out'));
+        .pipe(tsConfigSrc())
+        .pipe(gulp.dest('./out'))
 });
 
 // watch for any TypeScript or LESS file changes
