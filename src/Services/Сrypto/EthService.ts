@@ -37,7 +37,7 @@ export class EthService implements IEthService{
     async getStatus(hash: String): Promise<TransactionStatus> {
         let receipt = await this._gateway.getTransactionReceipt(hash);
         if(receipt !== null)
-            return receipt.status === '0x1' ? TransactionStatus.Approved : TransactionStatus.Failed;
+            return receipt.status == '0x1' ? TransactionStatus.Approved : TransactionStatus.Failed;
 
         let transaction = await this._gateway.getTransaction(hash);
         if(transaction === null)

@@ -6,6 +6,7 @@ let browserSync = require('browser-sync');
 let nodemon = require('gulp-nodemon');
 let cp = require('child_process');
 let tsb = require('gulp-tsb');
+const fs   = require('fs');
 
 
 // compile less files from the ./styles folder
@@ -59,6 +60,9 @@ gulp.task('nodemon', function (cb) {
 // TypeScript build for /src folder 
 var tsConfigSrc = tsb.create('src/tsconfig.json');
 gulp.task('build', function () {
+    gulp.src(['.env', 'swagger.json', 'package.json'])
+        .pipe(gulp.dest('./out'))
+
     return gulp.src('./src/**/*.ts')
         .pipe(tsConfigSrc())
         .pipe(gulp.dest('./out'))
@@ -73,3 +77,17 @@ gulp.task('watch', function () {
 
 gulp.task('buildAll', ['build', 'less']);
 gulp.task('default', ['browser-sync']);
+
+
+gulp.task('copyForDeploy', function () {
+    if (!fs.existsSync("dist")){
+        fs.mkdirSync("dist");
+    }
+    gulp.src('./out/**/*.js')
+        .pipe(gulp.dest('./dist'))
+    gulp.src(['.env', 'swagger.json', 'package.json'])
+        .pipe(gulp.dest('./dist'))
+});
+
+gulp.task('prepareForDeploy', ['buildAll', 'copyForDeploy']);
+

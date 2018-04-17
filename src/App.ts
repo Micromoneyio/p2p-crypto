@@ -7,7 +7,7 @@ import transactionRouter from "./API/Transactions/Router";
 import ValidationError from "./Core/Models/Exceptions/ValidationError";
 import logger from "./Services/Logger/Logger";
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger.json');
+const swaggerDocument = require('./swagger.json');
 
 class App {
     public express;
@@ -52,7 +52,7 @@ class App {
 
     private configureSwagger(): void {
         if(process.env.BLOCKCHAIN_ENV !== "dev")
-            return;
+             return;
 
         this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }

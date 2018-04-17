@@ -4,7 +4,8 @@ import 'winston-daily-rotate-file';
 const logger = new winston.Logger({
     transports: [
         new winston.transports.Console({
-            colorize: true
+            colorize: true,
+            level: 'error'
         }),
         new winston.transports.DailyRotateFile(
             {
