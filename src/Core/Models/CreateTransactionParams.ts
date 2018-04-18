@@ -1,3 +1,5 @@
+import {TransactionFeeEnum} from "./Enums/TransactionFeeEnum";
+
 export default interface CreateTransactionParams {
     from: string;
     fromPrivateKey: string;
@@ -5,5 +7,5 @@ export default interface CreateTransactionParams {
     to: string;
 
     value: string;
-    fee: string;
+    fee: TransactionFeeEnum;
 }

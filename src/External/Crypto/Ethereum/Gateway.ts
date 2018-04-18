@@ -5,6 +5,7 @@ var promiseRetry = require('promise-retry');
 import {Account, Transaction, TransactionReceipt} from "web3/types";
 import {IEthGateway} from "../../../Core/Gateways/IEthGateway";
 import CreateTransactionParams from "../../../Core/Models/CreateTransactionParams";
+import CreateTransactionEthParams from "../../../Core/Models/CreateTransactionEthParams";
 
 export class EthGateway implements IEthGateway {
     private _web3: Web3;
@@ -21,7 +22,7 @@ export class EthGateway implements IEthGateway {
         return this._web3.eth.getBalance(address);
     }
 
-    async createTransaction(transaction: CreateTransactionParams): Promise<string> {
+    async createTransaction(transaction: CreateTransactionEthParams): Promise<string> {
         let nonce = await this._web3.eth.getTransactionCount(transaction.from, "pending");
         return promiseRetry((retry, number) => {
             console.log('attempt number', number);
@@ -34,7 +35,7 @@ export class EthGateway implements IEthGateway {
         });
     }
 
-    private async _createTransaction(nonce:number, transaction: CreateTransactionParams): Promise<string> {
+    private async _createTransaction(nonce:number, transaction: CreateTransactionEthParams): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let rawTx = {
                 from: transaction.from,

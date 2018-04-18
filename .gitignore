@@ -31,6 +31,8 @@ npm-debug.log
 
 #out
 out/
+#dist
+dist/
 
 #.idea/
 .idea/

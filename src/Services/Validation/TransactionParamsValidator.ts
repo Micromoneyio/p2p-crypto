@@ -8,7 +8,7 @@ const createTransactionParams = {
     fromPrivateKey: Joi.string().min(15).required(),
     to: Joi.string().min(15).required(),
     value: Joi.string(),
-    fee: Joi.string()
+    fee: Joi.number()
 };
 
 const schema = Joi.object().keys(createTransactionParams).optionalKeys( "fee");

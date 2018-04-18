@@ -34,6 +34,14 @@
         "ETH"
       ]
     },
+    "TransactionFeeEnum": {
+      "type": "string",
+      "enum": [
+        "Slow",
+        "Average",
+        "Fast"
+      ]
+    },
     "TransactionStatus": {
       "type": "string",
       "enum": [
@@ -89,8 +97,7 @@
           "format": "int64"
         },
         "fee": {
-          "type": "integer",
-          "format": "int64"
+          "$ref": "#/definitions/TransactionFeeEnum"
         }
       },
       "xml": {

@@ -84,9 +84,9 @@ gulp.task('copyForDeploy', function () {
         fs.mkdirSync("dist");
     }
     gulp.src('./out/**/*.js')
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest('./dist'));
     gulp.src(['.env', 'swagger.json', 'package.json'])
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('prepareForDeploy', ['buildAll', 'copyForDeploy']);
