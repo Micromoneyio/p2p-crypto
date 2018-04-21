@@ -15,6 +15,9 @@ const schema = Joi.object().keys(createTransactionParams).optionalKeys( "fee");
 const optionalSchema = schema.optionalKeys("fee");
 
 export function validateCreateTransactionParams(model: CreateTransactionParams) {
+    if(model.fee === undefined)
+        throw new ValidationError("Fee should be defined");
+
     let result = Joi.validate(model, optionalSchema);
     if (result.error)
         throw new ValidationError(result.error);

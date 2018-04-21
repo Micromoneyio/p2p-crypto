@@ -7,6 +7,9 @@ import NotFoundError from "../../Core/Models/Exceptions/NotFoundError";
 import ValidationError from "../../Core/Models/Exceptions/ValidationError";
 import IEthGasStationGateway from "../../Core/Gateways/IEthGasStationGateway";
 import {TransactionFeeEnum} from "../../Core/Models/Enums/TransactionFeeEnum";
+import TransactionCost from "../../Core/Models/TransactionCost";
+import {BigNumber} from "bignumber.js";
+import {EthereumUnitConverter} from "../Utils/EthereumUnitConverter";
 
 export class EthService implements IEthService {
     private _gateway: IEthGateway;
@@ -74,6 +77,19 @@ export class EthService implements IEthService {
 
         throw new Error("Something strange happens. Transaction receipt doesn't exist, " +
             "but block's number was defined");
+    }
+
+    async getTransactionCost(): Promise<TransactionCost> {
+        let gasPrice = await this._ethGasPriceGateway.getPrices();
+        let slowCost = new BigNumber(gasPrice.safeLow).times(31000);
+        let averageCost = new BigNumber(gasPrice.average).times(31000);
+        let fastCost = new BigNumber(gasPrice.fast).times(31000);
+
+        return {
+            slowCost : EthereumUnitConverter.weiToEther(slowCost).toNumber(),
+            averageCost : EthereumUnitConverter.weiToEther(averageCost).toNumber(),
+            fastCost: EthereumUnitConverter.weiToEther(fastCost).toNumber()
+        }
     }
 
 }

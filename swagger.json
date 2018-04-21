@@ -127,6 +127,34 @@
         "name": "BalanceResponse"
       }
     },
+    "TransactionCost":{
+      "type": "object",
+      "properties": {
+        "slowCost": {
+          "type": "number"
+        },
+        "averageCost": {
+          "type": "number"
+        },
+        "fastCost": {
+          "type": "number"
+        }
+      },
+      "xml": {
+        "name": "TransactionCost"
+      }
+    },
+    "GetTransactionCostResponse":{
+      "type": "object",
+      "properties": {
+        "costs": {
+          "$ref": "#/definitions/TransactionCost"
+        }
+      },
+      "xml": {
+        "name": "GetTransactionCostResponse"
+      }
+    },
     "Error": {
       "type": "object",
       "properties": {
@@ -267,7 +295,7 @@
         }
       }
     },
-    "/transactions/{currency}/{transactionHash}": {
+    "/transactions/{currency}/{transactionHash}/status": {
       "get": {
         "tags": [
           "transactions"
@@ -295,6 +323,45 @@
             "description": "Return status of the transaction",
             "schema": {
               "$ref": "#/definitions/GetTransactionStatusResponse"
+            }
+          },
+          "406": {
+            "description": "Input validation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{currency}/transaction-cost/": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get transaction cost levels",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return status of the transaction",
+            "schema": {
+              "$ref": "#/definitions/GetTransactionConsResponse"
             }
           },
           "406": {

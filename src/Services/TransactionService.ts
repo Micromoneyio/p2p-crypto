@@ -4,6 +4,7 @@ import {validateTransactionHash, validateCreateTransactionParams} from "./Valida
 import {IServiceFactory} from "../Core/Services/IServiceFactory";
 import {CurrencyEnum} from "../Core/Models/Enums/CurrencyEnum";
 import {TransactionStatus} from "../Core/Models/Enums/TransactionStatus";
+import TransactionCost from "../Core/Models/TransactionCost";
 
 export default class TransactionService implements ITransactionService {
     private _serviceFactory: IServiceFactory;
@@ -22,6 +23,10 @@ export default class TransactionService implements ITransactionService {
         validateTransactionHash(hash);
 
         return this._serviceFactory.get(currencyType).getStatus(hash);
+    }
+
+    getTransactionCost(currencyType: CurrencyEnum): Promise<TransactionCost> {
+        return this._serviceFactory.get(currencyType).getTransactionCost();
     }
 
 }

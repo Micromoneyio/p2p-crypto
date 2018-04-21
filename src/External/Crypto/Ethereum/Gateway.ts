@@ -1,6 +1,6 @@
 import Web3 from "web3";
-var Tx = require('ethereumjs-tx');
-var promiseRetry = require('promise-retry');
+const Tx = require('ethereumjs-tx');
+const promiseRetry = require('promise-retry');
 
 import {Account, Transaction, TransactionReceipt} from "web3/types";
 import {IEthGateway} from "../../../Core/Gateways/IEthGateway";
@@ -29,8 +29,12 @@ export class EthGateway implements IEthGateway {
 
             return this._createTransaction(nonce, transaction)
                 .catch(err => {
-                    nonce ++;
-                    retry(err);
+                    if(err.message.toLowerCase().includes('known ')){
+                        nonce ++;
+                        retry(err);
+                    }else{
+                        throw err;
+                    }
                 });
         });
     }
@@ -41,7 +45,7 @@ export class EthGateway implements IEthGateway {
                 from: transaction.from,
                 nonce: nonce,
                 gasPrice: this._web3.utils.toHex(transaction.fee),
-                gasLimit: this._web3.utils.toHex("100000"),
+                gasLimit: this._web3.utils.toHex("22000"),
                 to: transaction.to,
                 value: this._web3.utils.toHex(transaction.value),
                 data: '0x0'

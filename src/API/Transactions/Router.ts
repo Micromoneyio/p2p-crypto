@@ -18,10 +18,16 @@ transactionRouter.post('/:currency/', asyncMiddleware(async (req, res) => {
     res.json({ hash : hash})
 }));
 
-transactionRouter.get('/:currency/:transactionHash', asyncMiddleware(async (req, res) => {
+transactionRouter.get('/:currency/:transactionHash/status', asyncMiddleware(async (req, res) => {
     const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
     let status = await transactionService.getStatus(currencyType, req.params.transactionHash);
     res.json({status: TransactionStatus[status]})
+}));
+
+transactionRouter.get('/:currency/transaction-cost', asyncMiddleware(async (req, res) => {
+    const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
+    let cost = await transactionService.getTransactionCost(currencyType);
+    res.json({costs: cost})
 }));
 
 export default transactionRouter;
