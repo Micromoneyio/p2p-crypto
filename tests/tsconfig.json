@@ -1,13 +1,17 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es5",
-		"outDir": "./out",
+		"target": "es6",
+		"outDir": "../out",
+		"types": ["reflect-metadata"],
 		"lib": [
 			"es6"
 		],
+		"inlineSource": true,
 		"sourceMap": true,
-		"rootDir": "."
+		"rootDir": ".",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"exclude": [
 		"node_modules"

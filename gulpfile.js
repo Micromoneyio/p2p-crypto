@@ -20,13 +20,6 @@ gulp.task('less', function () {
 });
 
 
-// run mocha tests in the ./tests folder
-gulp.task('test', function () {
-    return gulp.src('./tests/out/test*.js', { read: false })
-    // gulp-mocha needs filepaths so you can't have any plugins before it 
-        .pipe(mocha());
-});
-
 // run browser-sync on for client changes
 gulp.task('browser-sync', ['nodemon', 'watch'], function () {
     browserSync.init(null, {
