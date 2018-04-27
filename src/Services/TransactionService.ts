@@ -29,4 +29,10 @@ export default class TransactionService implements ITransactionService {
         return this._serviceFactory.get(currencyType).getTransactionCost();
     }
 
+    createWithFeeIncluded(currencyType: CurrencyEnum, transaction: CreateTransactionParams): Promise<string> {
+        validateCreateTransactionParams(transaction);
+
+        return this._serviceFactory.get(currencyType).createTransactionWithFeeIncluded(transaction);
+    }
+
 }

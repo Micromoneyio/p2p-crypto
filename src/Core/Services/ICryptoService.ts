@@ -8,6 +8,7 @@ export interface ICryptoService {
     generateAddress() : GeneratedAccount
     getBalance(address: string): Promise<number>
     createTransaction(transaction: CreateTransactionParams) : Promise<string>
+    createTransactionWithFeeIncluded(transaction: CreateTransactionParams) : Promise<string>
     getStatus(hash: String): Promise<TransactionStatus>
     getTransactionCost() : Promise<TransactionCost>
 }

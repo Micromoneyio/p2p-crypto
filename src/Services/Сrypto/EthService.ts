@@ -81,15 +81,37 @@ export class EthService implements IEthService {
 
     async getTransactionCost(): Promise<TransactionCost> {
         let gasPrice = await this._ethGasPriceGateway.getPrices();
-        let slowCost = new BigNumber(gasPrice.safeLow).times(31000);
-        let averageCost = new BigNumber(gasPrice.average).times(31000);
-        let fastCost = new BigNumber(gasPrice.fast).times(31000);
+        let slowCost = new BigNumber(gasPrice.safeLow).times(21004);
+        let averageCost = new BigNumber(gasPrice.average).times(21004);
+        let fastCost = new BigNumber(gasPrice.fast).times(21004);
 
         return {
             slowCost : EthereumUnitConverter.weiToEther(slowCost).toNumber(),
             averageCost : EthereumUnitConverter.weiToEther(averageCost).toNumber(),
             fastCost: EthereumUnitConverter.weiToEther(fastCost).toNumber()
         }
+    }
+
+    async createTransactionWithFeeIncluded(transaction: CreateTransactionParams): Promise<string> {
+        transaction.from = transaction.from.toLowerCase();
+        transaction.to = transaction.to.toLowerCase();
+        if (transaction.fromPrivateKey.includes("0x", 0)) {
+            transaction.fromPrivateKey = transaction.fromPrivateKey.slice(2);
+        }
+        let fee = await this.transformFee(transaction);
+
+        let feeAmount = new BigNumber(fee).times(21004);
+        let valueAmount = new BigNumber(transaction.value).minus(feeAmount);
+        if(feeAmount.isGreaterThan(valueAmount))
+            throw new ValidationError("Fee can't be greater than amount");
+
+        return this._gateway.createTransaction({
+            fee : fee.toString(),
+            from: transaction.from,
+            fromPrivateKey : transaction.fromPrivateKey,
+            to : transaction.to,
+            value : valueAmount.toString()
+        });
     }
 
 }

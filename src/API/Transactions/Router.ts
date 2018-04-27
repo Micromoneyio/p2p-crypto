@@ -8,7 +8,17 @@ import {TransactionFeeEnum} from "../../Core/Models/Enums/TransactionFeeEnum";
 
 const transactionRouter = express.Router();
 
-transactionRouter.post('/:currency/', asyncMiddleware(async (req, res) => {
+transactionRouter.post('/:currency/fee-included', asyncMiddleware(async (req, res) => {
+    const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
+
+    req.body.value = EthereumUnitConverter.ethToWei(req.body.value || 0).toString();
+    req.body.fee = TransactionFeeEnum[<string>req.body.fee];
+
+    let hash = await transactionService.createWithFeeIncluded(currencyType, req.body);
+    res.json({ hash : hash})
+}));
+
+transactionRouter.post('/:currency/fee-not-included', asyncMiddleware(async (req, res) => {
     const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
 
     req.body.value = EthereumUnitConverter.ethToWei(req.body.value || 0).toString();

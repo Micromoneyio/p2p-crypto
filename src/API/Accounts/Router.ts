@@ -15,7 +15,7 @@ accountRouter.post('/:currency/', (req, res) => {
 accountRouter.get('/:currency/:address/balance', asyncMiddleware(async (req, res) => {
     const currencyType:CurrencyEnum  = CurrencyEnum[<string>req.params.currency];
     let balance = await accountService.getBalance(currencyType, req.params.address);
-    res.json({balance : EthereumUnitConverter.weiToEther(balance).toString()});
+    res.json({balance : EthereumUnitConverter.weiToEther(balance).toNumber()});
 }));
 
 

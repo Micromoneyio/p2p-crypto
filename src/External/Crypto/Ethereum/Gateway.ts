@@ -45,7 +45,7 @@ export class EthGateway implements IEthGateway {
                 from: transaction.from,
                 nonce: nonce,
                 gasPrice: this._web3.utils.toHex(transaction.fee),
-                gasLimit: this._web3.utils.toHex("22000"),
+                gasLimit: this._web3.utils.toHex("21004"),
                 to: transaction.to,
                 value: this._web3.utils.toHex(transaction.value),
                 data: '0x0'

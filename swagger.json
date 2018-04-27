@@ -247,12 +247,60 @@
         }
       }
     },
-    "/transactions/{currency}": {
+    "/transactions/{currency}/fee-not-included": {
       "post": {
         "tags": [
           "transactions"
         ],
-        "summary": "Create new transcation",
+        "summary": "Create new transcation with full amount of money. Fee will be taken from the remaining balance",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "ETH"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Info about transaction",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return hash of the transaction",
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionResponse"
+            }
+          },
+          "406": {
+            "description": "Input validation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Possible problems with connection to node",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{currency}/fee-included": {
+      "post": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Create new transaction. Fee will be deducted from value",
         "parameters": [
           {
             "in": "path",
