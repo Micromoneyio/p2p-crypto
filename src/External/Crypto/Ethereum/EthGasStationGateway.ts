@@ -1,5 +1,5 @@
 import IEthGasStationGateway from "../../../Core/Gateways/IEthGasStationGateway";
-import EthGasStationResponse from "../../../Core/Models/EthGasStationResponse";
+import TxPriceResponse from "../../../Core/Models/TxPriceResponse";
 import {AxiosInstance} from "axios";
 import NotFoundError from "../../../Core/Models/Exceptions/NotFoundError";
 import {EthereumUnitConverter} from "../../../Services/Utils/EthereumUnitConverter";
@@ -14,7 +14,7 @@ export default class EthGasStationGateway  implements IEthGasStationGateway{
     }
 
 
-    async getPrices(): Promise<EthGasStationResponse> {
+    async getPrices(): Promise<TxPriceResponse> {
         let response = await this._httpClient.get(this.gasStationApi);
         if(response.status != 200)
             throw new NotFoundError("Can't fetch gas prices");
