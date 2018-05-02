@@ -1,7 +1,7 @@
 import * as express from 'express'
 import {CurrencyEnum} from "../../Core/Models/Enums/CurrencyEnum";
 import {transactionService} from "../DI/CommonDI";
-import {asyncMiddleware} from "../Utils";
+import {asyncMiddleware, biggestPartToSmallest} from "../Utils";
 import {TransactionStatus} from "../../Core/Models/Enums/TransactionStatus";
 import {EthereumUnitConverter} from "../../Services/Utils/EthereumUnitConverter";
 import {TransactionFeeEnum} from "../../Core/Models/Enums/TransactionFeeEnum";
@@ -21,7 +21,7 @@ transactionRouter.post('/:currency/fee-included', asyncMiddleware(async (req, re
 transactionRouter.post('/:currency/fee-not-included', asyncMiddleware(async (req, res) => {
     const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
 
-    req.body.value = EthereumUnitConverter.ethToWei(req.body.value || 0).toString();
+    req.body.value = biggestPartToSmallest(currencyType, req.body.value || 0).toString();
     req.body.fee = TransactionFeeEnum[<string>req.body.fee];
 
     let hash = await transactionService.create(currencyType, req.body);
