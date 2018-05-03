@@ -11,7 +11,7 @@ const transactionRouter = express.Router();
 transactionRouter.post('/:currency/fee-included', asyncMiddleware(async (req, res) => {
     const currencyType: CurrencyEnum = CurrencyEnum[<string>req.params.currency];
 
-    req.body.value = EthereumUnitConverter.ethToWei(req.body.value || 0).toString();
+    req.body.value = biggestPartToSmallest(currencyType, req.body.value || 0).toString();
     req.body.fee = TransactionFeeEnum[<string>req.body.fee];
 
     let hash = await transactionService.createWithFeeIncluded(currencyType, req.body);

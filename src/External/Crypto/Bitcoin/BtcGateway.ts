@@ -9,7 +9,7 @@ export class BtcGateway implements IBtcGateway {
 
     public constructor(connector, httpClient:AxiosInstance){
         this._connector = connector;
-        this._httpClient = connector;
+        this._httpClient = httpClient;
     }
 
 

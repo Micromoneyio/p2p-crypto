@@ -20,8 +20,6 @@ export class BtcService implements IBtcService{
     }
 
     async createTransaction(transaction: CreateTransactionParams): Promise<string> {
-        transaction.from = transaction.from.toLowerCase();
-        transaction.to = transaction.to.toLowerCase();
         let fee = await this.transformFee(transaction);
 
         return this._gateway.createTransaction({
@@ -34,10 +32,7 @@ export class BtcService implements IBtcService{
     }
 
     async createTransactionWithFeeIncluded(transaction: CreateTransactionParams): Promise<string> {
-        transaction.from = transaction.from.toLowerCase();
-        transaction.to = transaction.to.toLowerCase();
         let fee = await this.transformFee(transaction);
-
         let feeAmount = BitcoinUnitConverter.btcToSatoshi(fee);
         let valueAmount = new BigNumber(transaction.value).minus(BitcoinUnitConverter.btcToSatoshi(fee));
         if(feeAmount.isGreaterThan(valueAmount))
@@ -83,7 +78,7 @@ export class BtcService implements IBtcService{
         if(txInfo === null)
             throw new Error("Something strange happens. Transaction doesn't exist");
 
-        if(txInfo.blockheight === null)
+        if(txInfo.blockheight === null || txInfo.blockheight === -1)
             return TransactionStatus.Pending;
 
         return TransactionStatus.Approved;

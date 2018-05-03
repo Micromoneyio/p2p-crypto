@@ -31,7 +31,8 @@
     "CurrenciesList": {
       "type": "string",
       "enum": [
-        "ETH"
+        "ETH",
+        "BTC"
       ]
     },
     "TransactionFeeEnum": {
@@ -182,7 +183,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           }
         ],
@@ -215,7 +217,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           },
           {
@@ -260,7 +263,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           },
           {
@@ -308,7 +312,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           },
           {
@@ -356,7 +361,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           },
           {
@@ -401,7 +407,8 @@
             "required": true,
             "type": "string",
             "enum": [
-              "ETH"
+              "ETH",
+              "BTC"
             ]
           }
         ],

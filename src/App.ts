@@ -19,13 +19,13 @@ class App {
         this.configureSwagger();
 
         this.express.use((err, req, res, next) => {
-            logger.error(err.stack);
+            logger.error(err.stack || err);
 
             if(err instanceof ValidationError){
-                return res.status(406).send({error: JSON.stringify(err.message)});
+                return res.status(406).send({error: JSON.stringify(err.message || err)});
             }
 
-            res.status(500).send({error: JSON.stringify(err.message)});
+            res.status(500).send({error: JSON.stringify(err.message || err)});
         });
     }
 
@@ -51,8 +51,8 @@ class App {
     }
 
     private configureSwagger(): void {
-        if(process.env.BLOCKCHAIN_ENV !== "dev")
-             return;
+        // if(process.env.BLOCKCHAIN_ENV !== "dev")
+        //      return;
 
         this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
