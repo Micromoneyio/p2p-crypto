@@ -9,11 +9,11 @@ export class BtcPriceGateway implements IBtcPriceGateway {
     constructor(httpClient: AxiosInstance) {
         this._httpClient = httpClient;
     }
-ы
+
     async getPrices(): Promise<TxPriceResponse> {
         let fastTask = this._httpClient.get(`${this.estimateFeeApi}/2`);
         let average = this._httpClient.get(`${this.estimateFeeApi}/4`);
-        let slow = this._httpClient.get(`${this.estimateFeeApi}/6`);
+        let slow = this._httpClient.get(`${this.estimateFeeApi}/19`);
 
         let result = await Promise.all([fastTask, average, slow]);
         return {
